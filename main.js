@@ -1,28 +1,30 @@
-console.log("hello world");
 
-const URL = "https://api.thecatapi.com/v1/images/search";
+
+const API_URL = "https://api.thecatapi.com/v1/images/search?limit=3";
 const h1 = document.querySelector('h1');
 const btnCat = document.querySelector(".btn-cat")
 
-btnCat.addEventListener('click',renderImg)
+btnCat.addEventListener('click',renderImg);
 
-fetch(URL)
-.then(res => res.json())
-.then(data => {
-  const imgCat = document.querySelector('img');
-  imgCat.setAttribute("width",'100%');
-  imgCat.src = data[0].url; 
-}); 
-
+ 
 async function renderImg() {
-  fetch(URL)
-    .then(res => res.json())
-    .then(data => {
-      const imgCat = document.querySelector('img');
-      imgCat.src = data[0].url; 
-      imgCat.setAttribute("width",'100%');
-    });   
-}
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  // const imgCat = document.querySelector('img');
+   console.log(data);
+  const img1 = document.getElementById("img1");
+  const img2 = document.getElementById("img2");
+  const img3 = document.getElementById("img3");
+  // imgCat.src = data[0].url; 
+  // imgCat.setAttribute("width",'100%');
+  
+  img1.src = data[0].url;
+  img2.src = data[1].url;
+  img3.src = data[2].url;
+
+};   
+
+renderImg();
 
 
 

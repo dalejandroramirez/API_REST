@@ -1,6 +1,7 @@
 .card-container {
     display: flex;
-    width: 30%;
+    width: 200px;
+    height: 150 px;
     flex-direction: column;
     text-align: center;
     margin: 0 auto;
@@ -9,6 +10,7 @@
 .btn-cat{
     width: 50%;
     margin: 0 auto;
-
-
+}
+img {
+    width: 100%;
 }
