@@ -1,0 +1,14 @@
+.card-container {
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+} 
+
+.btn-cat{
+    width: 50%;
+    margin: 0 auto;
+
+
+}
