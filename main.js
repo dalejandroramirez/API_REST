@@ -1,6 +1,9 @@
 
 
-const API_URL = "https://api.thecatapi.com/v1/images/search?limit=3";
+const API_URL = "https://api.thecatapi.com/v1/images/search?limit=3&    <section>
+<h2>api keys</h2>
+<img src="./img/apiKeys.png" alt="" width="100%">
+</section>";
 const h1 = document.querySelector('h1');
 const btnCat = document.querySelector(".btn-cat")
 

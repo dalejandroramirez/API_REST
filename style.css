@@ -4,8 +4,9 @@
     height: 150 px;
     flex-direction: column;
     text-align: center;
-    margin: 0 auto;
-} 
+    margin: 0 auto;    
+}
+
 
 .btn-cat{
     width: 50%;
