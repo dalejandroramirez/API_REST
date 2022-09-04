@@ -1,9 +1,8 @@
 
 const API_URL_RANDOM = "https://api.thecatapi.com/v1/images/search?limit=2&api_key=live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h";
-const API_URL_FAVOURITES = "https://api.thecatapi.com/v1/favourites?api_key=live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h";
-const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h`;
-
-
+const API_URL_FAVOURITES = "https://api.thecatapi.com/v1/favourites";
+const API_URL_UPLOAD = "https://api.thecatapi.com/v1/images/upload";
+const API_URL_FAVOURITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
 
 const h1 = document.querySelector('h1');
 const btnCat = document.querySelector(".btn-cat-primary");
@@ -11,7 +10,7 @@ const btnCat = document.querySelector(".btn-cat-primary");
 
 const spanError = document.getElementById('error');
 
-btnCat.addEventListener('click',renderImg);
+// btnCat.addEventListener('click',renderImg);
 
 // btnCatAdd.addEventListener('click',function() {saveFavouriteCat()} );
 
@@ -44,9 +43,13 @@ async function renderImg() {
 };   
 
 async function loadFavouriteCats() {
-  const res = await fetch(API_URL_FAVOURITES);
+  const res = await fetch(API_URL_FAVOURITES, {
+   method : "GET",
+   headers: {
+     "X-API-KEY" : "live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h",
+   } ,
+  });
   const data = await res.json();
-
   
   if (res.status !== 200) {
     spanError.innerHTML = "Hubo un error" + res.status + data.messenge;
@@ -84,6 +87,7 @@ async function saveFavouriteCat(id) {
     method: 'POST',
     headers: { 
       'Content-Type' : 'application/json',
+        "X-API-KEY" : "live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h",
     },
     body: JSON.stringify({
       image_id: id
@@ -110,6 +114,10 @@ async function saveFavouriteCat(id) {
 async function deleteFavouriteCat(id){
   const res = await fetch(API_URL_FAVOURITES_DELETE(id), {
     method: 'DELETE',
+    headers: {
+      method: "GET",
+      "X-API-KEY": "live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h",
+    }
   });
 
   const data = await res.json();
@@ -122,6 +130,34 @@ async function deleteFavouriteCat(id){
   } else{
     console.log("cat delete of favourite")
     loadFavouriteCats();
+  }
+};
+
+async function uploadCatPhoto(){
+  const form = document.getElementById('uploadingForm');
+  const formData = new FormData(form);
+
+  console.log(formData.get('file'))
+
+  const res = await fetch(API_URL_UPLOAD,{
+    method: "POST",
+    headers: {
+      "X-API-KEY":"live_HZZPd8O6HZu4BT0ypIXP5vxe6tanPja6OLN9RbeQoM5a6XBXYnSewUhXUgoeiY7h",
+    },
+    body: formData,
+  })
+
+  const data = await res.json();
+
+  if ( res.status  !== 201 ){
+      spanError.innerText = "Hubo un error: " + res.status + " "  + data.message
+  }else{
+      console.log("Michi cargado correctamente");
+      console.log({data});
+      console.log(data.url);
+      console.log(loadFavouriteCats());
+      loadFavouriteCats()
+      saveFavouriteCat(data.id)
   }
 };
 
